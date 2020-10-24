@@ -35,12 +35,8 @@ Meteor.startup(function(){
     hiveoptions.url = Meteor.settings.public.remote.HiveAPINodes[0]
   else
     hiveoptions.url = localStorage.getItem('hiveAPI')
-
-  hive.utils.autoDetectApiVersion().then((r) => {
-    hiveoptions.rebranded_api = r.rebranded_api
-    hive.api.setOptions(hiveoptions)
-    hive.broadcast.updateOperations()
-  })
+  hive.api.setOptions(hiveoptions)
+  hive.broadcast.updateOperations()
 
   Session.set('steemAPI', steem.api.options.url)
   Session.set('hiveAPI',hiveoptions.url)
@@ -117,4 +113,27 @@ Meteor.startup(function(){
       clearInterval(airdropChecker)
     });
   }, 5000)
+
+  // ethereum metamask
+  if (window.ethereum) {
+    Session.set('hasMetamask', true)
+    jQuery.ajax({
+      url: 'https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.0/web3.min.js',
+      dataType: 'script',
+      success: function() {
+        metamask.enable()
+        metamask.loadGasPrice()
+        metamask.loadUniswapBalance()
+        var ethAddressChecker = setInterval(function() {
+          if (window.ethereum.selectedAddress) {
+            clearInterval(ethAddressChecker)
+            console.log('Metamask connected: '+window.ethereum.selectedAddress)
+            Session.set('metamaskAddress', window.ethereum.selectedAddress)
+            metamask.loadBalance()
+          }
+        }, 150)
+      },
+      async: true
+    });
+  }
 })

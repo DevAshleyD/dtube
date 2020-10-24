@@ -39,3 +39,14 @@ Template.channeldesktopcover.helpers({
       return bgcolor
     }
   })
+
+Template.channeldesktopcover.events({
+  "click #connectMetamask": function() {
+    metamask.enable()
+  },
+  "click #swapErc20": function() {
+    Template.sidebar.empty()
+    $('.swaperc20').show()
+    metamask.loadGasPrice()
+  }
+})
