@@ -3,6 +3,7 @@ Template.publish.rendered = function() {
     Session.set('publishVP', Math.floor(UserSettings.get('voteWeight')*avalon.votingPower(Users.findOne({ username: Session.get('activeUsername'), network: 'avalon' }))))
     Template.settingsdropdown.nightMode()
     setTimeout(() => {
+        Template.settingsdropdown.nightMode()
         let publishBurnSlider = document.getElementById("dtc-range");
         publishBurnSlider.oninput = function () {
             let balance = Users.findOne({ username: Session.get('activeUsername'), network: 'avalon' }).balance
@@ -12,7 +13,7 @@ Template.publish.rendered = function() {
         var publishVPSlider = document.getElementById("vp-range");
         publishVPSlider.oninput = function () {
             var vpBalance = avalon.votingPower(Users.findOne({ username: Session.get('activeUsername'), network: 'avalon' }))
-            Session.set('publishVP', Math.floor(this.value*vpBalance))
+            Session.set('publishVP', Math.max(100,Math.floor(this.value*vpBalance)))
         }
     }, 200)
     var json = Session.get('tmpVideo').json
@@ -25,11 +26,8 @@ Template.publish.rendered = function() {
         if (json.dur)
             $("#inputDuration")[0].value = json.dur
 
-        $('#tagDropdown').dropdown({
-            allowAdditions: true
-        })
         if (json.tag)
-            $('#tagDropdown').dropdown('set selected', json.tag)
+            $('#tagDropdown').val(json.tag)
 
         var steemData = Session.get('tmpVideo').steem
         if (!steemData) return
@@ -470,7 +468,7 @@ Template.publish.helpers({
         return Session.get('publishBurn')
     },
     publishBurnOutput: function () {
-        return Session.get('publishBurn')*600
+        return Session.get('publishBurn')*4400
     },
     publishVP: function() {
         return Session.get('publishVP')

@@ -253,8 +253,9 @@ textarea {
 .nontopleader.nightmodeleader:nth-child(odd) { background-color: rgb(40,40,40); }
 .nontopleader.nightmodeleader:nth-child(even) { background-color: rgb(30,30,30); }
 
-.leader.disabled {
-  color: grey;
+.leader.disabled,
+.nightmodetext.leader.disabled {
+  color: grey!important;
 }
 
 .leader.disabled.nightmodeleader {
@@ -299,13 +300,18 @@ textarea {
 .ui.nightsegment .ui.slider.checkbox input:checked ~ .box,
 .ui.nightsegment .ui.slider.checkbox input:checked ~ label { color: #ffffff!important; }
 
-input.nightmode,
+input.nightmode:not(.hslider),
 textarea.nightmode,
 .dropdown.nightmode:not(.dropdownnotification):not(.dropdownvideoshare):not(.dropdownvideosettings):not(.dropdownsettings),
 .nightmode .settingspage select,
 .ui.form.nightmode .segments .segment .field input {
   color: #ffffff!important;
   background-color: rgb(30,30,30)!important;
+}
+
+#newkey-id.nightmode {
+  color: #ffffff!important;
+  background-color: rgb(0,0,0)!important;
 }
 
 #replytext.nightmode {

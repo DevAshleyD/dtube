@@ -39,12 +39,7 @@
                         <div class="two fields">
                             <div class="field publishfield">
                                 <label>{{ translate 'UPLOAD_TAGS'}}</label>
-                                <select id="tagDropdown" name="skills" class="ui fluid search dropdown">
-                                    <option value=""></option>
-                                    {{#each topTags}}
-                                    <option value="{{tag}}">{{tag}}</option>
-                                    {{/each}}
-                                </select>
+                                <input id="tagDropdown" type="text" placeholder="{{ translate 'UPLOAD_TAGS' }}">
                             </div>
 
                             <div class="field">
@@ -109,7 +104,7 @@
                                                     {{displayMoney publishBurn 0 'DTC'}}
                                                 </strong>
                                             </label>
-                                            <div id="promoteslider" style="display: none;margin-top: 5px;">
+                                            <div id="promoteslider" style="display: none;margin-top: 15px;">
                                                 {{> horizontalslider color="red" sliderid="dtc-range"}}
                                             </div>
                                         </div>
@@ -222,10 +217,10 @@
                 </tbody>
             </table>
 
-            {{#if activeUsernameSteem}}
+            {{#if or activeUsernameSteem activeUsernameHive}}
                 {{#unless isEditingVideo}}
                 <div class="ui divider"></div>
-                <h2>Steem Options</h2>
+                <h2>{{ translate 'UPLOAD_GRAPHENE_OPTIONS' }}</h2>
                 <form class="ui form uploadformadvanced">
                     <div class="field advancedupload">
                         <div class="field publishfield">

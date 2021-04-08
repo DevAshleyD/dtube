@@ -5,6 +5,9 @@ Template.swaperc20.helpers({
     balanceErc20: function() {
         return Session.get('metamaskBalance')
     },
+    depositAddressBalance: () => {
+        return Session.get('depositAddressBalance')
+    },
     dtcFee: function() {
         var liquid = Session.get('metamaskUniswapLiquidities')
         if (!liquid) return ''
@@ -38,8 +41,9 @@ Template.swaperc20.helpers({
         if (Session.get('metamaskSwapInverse'))
             balance = Session.get('metamaskBalance')
         var amount = Session.get('swapAmount')
+        let depositLiquidity = parseInt(Session.get('depositAddressBalance'))
         var decimals = countDecimals(amount)
-        if (decimals > 2 || amount*100 > balance) {
+        if (decimals > 2 || amount*100 > balance || amount*100 > depositLiquidity) {
             $('#swapAmount').parent().parent().addClass('error')
             return false
         } else $('#swapAmount').parent().parent().removeClass('error')
@@ -54,6 +58,7 @@ Template.swaperc20.events({
     "click #swapInverse": function() {
         Session.set('metamaskSwapInverse', !Session.get('metamaskSwapInverse'))
         Session.set('swapAmount', null)
+        setTimeout(()=>Template.settingsdropdown.nightMode(),1)
     },
     "click #cancelSwap": function() {
         $('.swaperc20').hide()

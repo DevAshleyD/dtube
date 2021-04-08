@@ -30,11 +30,11 @@ Template.loginavalon.helpers({
         $('#dispVT').popup({
           position : 'bottom center',
         })
+        if (!UserSettings.get('voteWeight')) {
+          UserSettings.set('voteWeight', 1)
+        }
       }, 200)
     })
-    if (!UserSettings.get('voteWeight')) {
-      UserSettings.set('voteWeight', 5)
-    }
     Videos.loadFeed(activeUsername)
     if (!noreroute)
       FlowRouter.go('#!/')
@@ -81,7 +81,7 @@ Template.loginavalon.helpers({
         let isSecurityKey = false
         var allowedTxTypes = []
         if (chainuser.pub == user.publickey) {
-          allowedTxTypes = Array.from(Array(19).keys())
+          allowedTxTypes = Array.from(Array(20).keys())
           isSecurityKey = true
         }
         for (let i = 0; i < chainuser.keys.length; i++)

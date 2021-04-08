@@ -406,10 +406,7 @@ Template.addvideoformfileuploaded.events({
     'click #addvideofinish': function () {
         var files = Template.addvideohashes.fillHashes()
         if (files) {
-            if (Session.get('uploadEndpoint') === 'uploader.oneloved.tube')
-                Template.addvideo.addFiles('ipfs', files)
-            else
-                Template.addvideo.addFiles('btfs', files)
+            Template.addvideo.addFiles('ipfs', files)
             Session.set('addVideoStep', 'addvideopublish')
         }
     }
@@ -461,7 +458,7 @@ Template.addvideoformfile.rendered = function() {
             $('#uploadEndpointSelection').parent().addClass('loading')
             let net = Session.get('activeUsernameHive') ? 'hive' : 'dtc'
             $.ajax({
-              url: 'https://' + value + '/login?user=' + Session.get('activeUsernameHive') + '&needscredits=true&network=' + net,
+              url: 'https://' + value + '/login?user=' + (Session.get('activeUsernameHive') || Session.get('activeUsername')) + '&needscredits=true&network=' + net,
               method: 'GET',
               success: (result) => {
                 if (net == 'hive')

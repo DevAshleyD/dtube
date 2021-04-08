@@ -1,13 +1,6 @@
-  Template.buttoneditprofile.helpers({
-    user: function () {
-        return {
-          name: FlowRouter.getParam("author")
-        }
-      }
-  })
-
   Template.buttontransfer.events({
     'click .transferdtcbtn': function () {
+      Template.sidebar.empty()
       $('.transferdtc').show()
     },
     'click #cancelTransfer': function () {

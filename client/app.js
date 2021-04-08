@@ -50,15 +50,15 @@ Meteor.startup(function(){
   Session.set('scot', Meteor.settings.public.scot)
 
   // load local storage settings (video visibility)
-  if (localStorage.getItem("nsfwSetting"))
+  if (localStorage.getItem("nsfwSetting") && !isNaN(parseInt(localStorage.getItem("nsfwSetting"))))
     Session.set('nsfwSetting', localStorage.getItem("nsfwSetting"))
   else
-    Session.set('nsfwSetting', 'Fully Hidden')
+    Session.set('nsfwSetting', 2)
 
-  if (localStorage.getItem("censorSetting"))
+  if (localStorage.getItem("censorSetting") && !isNaN(parseInt(localStorage.getItem("censorSetting"))))
     Session.set('censorSetting', localStorage.getItem("censorSetting"))
   else
-    Session.set('censorSetting', 'Fully Hidden')
+    Session.set('censorSetting', 1)
 
   // dark mode (buggy)
   // if (!UserSettings.get('isInNightMode'))
@@ -115,25 +115,6 @@ Meteor.startup(function(){
   }, 5000)
 
   // ethereum metamask
-  if (window.ethereum) {
+  if (window.ethereum)
     Session.set('hasMetamask', true)
-    jQuery.ajax({
-      url: 'https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.0/web3.min.js',
-      dataType: 'script',
-      success: function() {
-        metamask.enable()
-        metamask.loadGasPrice()
-        metamask.loadUniswapBalance()
-        var ethAddressChecker = setInterval(function() {
-          if (window.ethereum.selectedAddress) {
-            clearInterval(ethAddressChecker)
-            console.log('Metamask connected: '+window.ethereum.selectedAddress)
-            Session.set('metamaskAddress', window.ethereum.selectedAddress)
-            metamask.loadBalance()
-          }
-        }, 150)
-      },
-      async: true
-    });
-  }
 })
